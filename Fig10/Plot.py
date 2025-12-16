@@ -31,17 +31,23 @@ plt.rcParams.update({
 })
 
 # 下面你的原代码完全不变
+N1list = np.linspace(3,16,14)
+N2list = np.linspace(3,32,30)
+
+RMd8 = np.load('RMd8.npy')
+RMd16 = np.load('RMd16.npy')
+
 klist = np.linspace(1,7,7)
-print(klist)
-RM_list1 = np.load('Ratiolist_RM3_d8e05.npy')
-RM_list2 = np.load('Ratiolist_RM5_d8e05.npy')
-RM_list3 = np.load('Ratiolist_RM7_d8e05.npy')
-RM_list4 = np.load('Ratiolist_RM9_d8e05.npy')
-RM_list5 = np.load('Ratiolist_RM3_d16e05.npy')
-RM_list6 = np.load('Ratiolist_RM5_d16e05.npy')
-RM_list7 = np.load('Ratiolist_RM7_d16e05.npy')
-RM_list8 = np.load('Ratiolist_RM9_d16e05.npy')
-CM_list1 = np.load('Ratiolist_CM_d8e05.npy')
+
+RM_list1 = RMd8[:,0]
+RM_list2 = RMd8[:,1]
+RM_list3 = RMd8[:,2]
+RM_list4 = RMd8[:,3]
+RM_list5 = RMd16[:,0]
+RM_list6 = RMd16[:,1]
+RM_list7 = RMd16[:,2]
+RM_list8 = RMd16[:,3]
+CM_list1 = np.load('FIG10_CM_d8e05.npy')
 CM_list2 = np.load('Ratiolist_CM_d16e05.npy')
 
 

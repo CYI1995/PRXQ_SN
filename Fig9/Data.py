@@ -86,7 +86,7 @@ def moment_based_k_reduction_criterion(rho,k,d,N):
 
 def RandomState(eps,d):
 
-    M = d*d
+    M = d*d  # or whatever dimension
     z = np.random.normal(0, 1, M) + 1j * np.random.normal(0, 1, M)
     v = z / np.linalg.norm(z)
 
@@ -95,15 +95,41 @@ def RandomState(eps,d):
 
 SampleNum = 100
 
+order_list = np.array([3,5,7,9])
+k_list = np.array([1,2,3,4,5,6,7])
+
+
+L1 = len(k_list)
+L2 = len(order_list)
 d = 8
-I_B = np.identity(d)
+ListofRatio = np.zeros((L1,L2))
 
-psi = np.zeros(d*d)
-for i in range(d):
-    psi[(d+1)*i] = 1/math.sqrt(d) 
+for n in range(SampleNum):
+    print(n)
+    rho = RandomState(0.1,d)
+    for l in range(L2):
+        order = order_list[l]
+        for j in range(L1):
+            k = k_list[j]
+            temp = moment_based_k_reduction_criterion(rho,k,d,order)
+            ListofRatio[j][l] = ListofRatio[j][l] + temp
 
-rho = np.outer(psi,psi.conj())
-print(moment_based_k_reduction_criterion(rho,1,d,3))
+ListofRatio = ListofRatio/SampleNum
+np.save('RMd8.npy',ListofRatio)
 
 
+d = 16
+ListofRatio = np.zeros((L1,L2))
 
+for n in range(SampleNum):
+    print(n)
+    rho = RandomState(0.1,d)
+    for l in range(L2):
+        order = order_list[l]
+        for j in range(L1):
+            k = k_list[j]
+            temp = moment_based_k_reduction_criterion(rho,k,d,order)
+            ListofRatio[j][l] = ListofRatio[j][l] + temp
+
+ListofRatio = ListofRatio/SampleNum
+np.save('RMd16.npy',ListofRatio)

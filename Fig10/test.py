@@ -43,6 +43,7 @@ def Hankel(mat,N,k):
         mat_power = mat_power.dot(mat)
         moment_list[n] = np.trace(mat_power).real 
 
+
     H = np.zeros((L,L))
     if(N % 2 == 1):
         
@@ -74,6 +75,7 @@ def moment_based_k_reduction_criterion(rho,k,d,N):
         H = Hankel(Rkrho,N,k)
         eig,vec = np.linalg.eig(H)
         if(np.min(eig) < 0):
+
             return 1
         else:
             return 0 
@@ -84,26 +86,26 @@ def moment_based_k_reduction_criterion(rho,k,d,N):
 
         return -1
 
-def RandomState(eps,d):
-
-    M = d*d
-    z = np.random.normal(0, 1, M) + 1j * np.random.normal(0, 1, M)
-    v = z / np.linalg.norm(z)
-
-    return (1-eps) * np.outer(v, v.conj()) + eps * np.identity(d*d)/(d*d) 
 
 
-SampleNum = 100
+SampleNum = 10
+samples = np.random.dirichlet((1,1,1,1,1,1), size=SampleNum)
 
 d = 8
-I_B = np.identity(d)
+coefficients = samples[0]
+v = np.zeros(d*d)
+for i in range(len(coefficients)):
+    v[i*(d+1)] = math.sqrt(coefficients[i])
+rho = np.outer(v, v.conj())
+rhoA = partial_trace(rho,d,d)
+rhoB = np.kron(rhoA,np.identity(d)/d)
+rhoB = partial_trace(rhoB,d,d)
+print(mycode.matrix_norm(rhoA - rhoB))
 
-psi = np.zeros(d*d)
-for i in range(d):
-    psi[(d+1)*i] = 1/math.sqrt(d) 
 
-rho = np.outer(psi,psi.conj())
-print(moment_based_k_reduction_criterion(rho,1,d,3))
+
+
+
 
 
 
