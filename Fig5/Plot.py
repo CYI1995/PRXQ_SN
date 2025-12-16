@@ -33,16 +33,21 @@ plt.rcParams.update({
 # 下面你的原代码完全不变
 N1list = np.linspace(3,16,14)
 N2list = np.linspace(3,32,30)
-RM_list1 = np.load('RMd8k1.npy')
-RM_list2 = np.load('RMd8k2.npy')
-RM_list3 = np.load('RMd8k3.npy')
-RM_list4 = np.load('RMd8k4.npy')
-RM_list5 = np.load('RMd8k5.npy')
-RM_list6 = np.load('RMd16k1.npy')
-RM_list7 = np.load('RMd16k2.npy')
-RM_list8 = np.load('RMd16k3.npy')
-RM_list9 = np.load('RMd16k4.npy')
-RM_list10 = np.load('RMd16k5.npy')
+
+RMd8 = np.load('RMd8.npy')
+RMd16 = np.load('RMd16.npy')
+
+RM_list1 = RMd8[0,:]
+RM_list2 = RMd8[1,:]
+RM_list3 = RMd8[2,:]
+RM_list4 = RMd8[3,:]
+RM_list5 = RMd8[4,:]
+
+RM_list6 = RMd16[0,:]
+RM_list7 = RMd16[1,:]
+RM_list8 = RMd16[2,:]
+RM_list9 = RMd16[3,:]
+RM_list10 = RMd16[4,:]
 
 # ============================== 上下两张子图 ==============================
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.0, 9.8),
