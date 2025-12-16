@@ -31,17 +31,23 @@ plt.rcParams.update({
 })
 
 # 下面你的原代码完全不变
-klist = np.linspace(1,5,5)
-print(klist)
-RM_list1 = np.load('RMd8N3.npy')
-RM_list2 = np.load('RMd8N4.npy')
-RM_list3 = np.load('RMd8N5.npy')
-RM_list4 = np.load('RMd8N6.npy')
-RM_list5 = np.load('RMd16N3.npy')
-RM_list6 = np.load('RMd16N4.npy')
-RM_list7 = np.load('RMd16N5.npy')
-RM_list8 = np.load('RMd16N6.npy')
+N1list = np.linspace(3,16,14)
+N2list = np.linspace(3,32,30)
 
+RMd8 = np.load('RMd8.npy')
+RMd16 = np.load('RMd16.npy')
+
+RM_list1 = RMd8[0,:]
+RM_list2 = RMd8[1,:]
+RM_list3 = RMd8[2,:]
+RM_list4 = RMd8[3,:]
+RM_list5 = RMd8[4,:]
+
+RM_list6 = RMd16[0,:]
+RM_list7 = RMd16[1,:]
+RM_list8 = RMd16[2,:]
+RM_list9 = RMd16[3,:]
+RM_list10 = RMd16[4,:]
 
 # ============================== 上下两张子图 ==============================
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.0, 9.8),
@@ -50,26 +56,26 @@ fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.0, 9.8),
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
 markers = ['o', 's', 'd', '^', 'v']
 
-for i, data in enumerate([RM_list1, RM_list2, RM_list3, RM_list4], 1):
-    ax1.plot(klist, data, marker=markers[i-1], color=colors[i-1],
-             lw=1.8, ms=7, label=rf'$\boldsymbol{{N = {i+2}}}$')
+for i, data in enumerate([RM_list1, RM_list2, RM_list3, RM_list4, RM_list5], 1):
+    ax1.plot(N1list, data, marker=markers[i-1], color=colors[i-1],
+             lw=1.8, ms=7, label=rf'$\boldsymbol{{k = {i}}}$')
 
-ax1.set_xticks(np.arange(1, 5.1, 1))
-ax1.set_xticklabels([rf'$\boldsymbol{{{int(x)}}}$' for x in np.arange(1, 5.1, 1)])
+ax1.set_xticks(np.arange(3, 16, 2))
+ax1.set_xticklabels([rf'$\boldsymbol{{{int(x)}}}$' for x in np.arange(3, 16, 2)])
 ax1.set_ylabel(r'$\boldsymbol{\mathrm{Ratio}}$')
 
-ax1.legend(loc='upper right')
+ax1.legend(loc='lower right')
 
-for i, data in enumerate([RM_list5,RM_list6, RM_list7, RM_list8], 1):
-    ax2.plot(klist, data, marker=markers[i-1], color=colors[i-1],
-             lw=1.8, ms=7, label=rf'$\boldsymbol{{N = {i+2}}}$')
+for i, data in enumerate([RM_list6, RM_list7, RM_list8, RM_list9, RM_list10], 1):
+    ax2.plot(N2list, data, marker=markers[i-1], color=colors[i-1],
+             lw=1.8, ms=7, label=rf'$\boldsymbol{{k = {i}}}$')
 
-ax2.set_xticks(np.arange(1, 5.1, 1))   # 保留这行！
-ax2.set_xticklabels([rf'$\boldsymbol{{{int(x)}}}$' for x in np.arange(1, 5.1, 1)])
+ax2.set_xticks(np.arange(3, 32, 4))   # 保留这行！
+ax2.set_xticklabels([rf'$\boldsymbol{{{int(x)}}}$' for x in np.arange(3, 32, 4)])
 
-ax2.set_xlabel(r'$\boldsymbol{k}$')
+ax2.set_xlabel(r'$\boldsymbol{N}$')
 ax2.set_ylabel(r'$\boldsymbol{\mathrm{Ratio}}$')
-ax2.legend(loc='upper right')
+ax2.legend(loc='lower right')
 
 
 for ax in (ax1, ax2):
@@ -78,5 +84,5 @@ for ax in (ax1, ax2):
                         for y in np.arange(0, 1.01, 0.2)])
     ax.set_ylim(-0.02, 1.02)   # 可选：让两图 y 范围完全一致
 
-plt.savefig('FIG6.pdf', bbox_inches='tight', pad_inches=0.02, dpi=600)
+plt.savefig('FIG5.pdf', bbox_inches='tight', pad_inches=0.02, dpi=600)
 plt.show()

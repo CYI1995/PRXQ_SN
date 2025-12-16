@@ -43,7 +43,6 @@ def Hankel(mat,N,k):
         mat_power = mat_power.dot(mat)
         moment_list[n] = np.trace(mat_power).real 
 
-
     H = np.zeros((L,L))
     if(N % 2 == 1):
         
@@ -75,7 +74,6 @@ def moment_based_k_reduction_criterion(rho,k,d,N):
         H = Hankel(Rkrho,N,k)
         eig,vec = np.linalg.eig(H)
         if(np.min(eig) < 0):
-
             return 1
         else:
             return 0 
@@ -88,23 +86,34 @@ def moment_based_k_reduction_criterion(rho,k,d,N):
 
 
 
-SampleNum = 10
+SampleNum = 1000
 samples = np.random.dirichlet((1,1,1,1,1,1), size=SampleNum)
 
+k_list = np.array([1,2,3,4,5])
+order_list = np.arange(3,17,1)
+
+L1 = len(k_list)
+L2 = len(order_list)
 d = 8
-coefficients = samples[0]
-v = np.zeros(d*d)
-for i in range(len(coefficients)):
-    v[i*(d+1)] = math.sqrt(coefficients[i])
-rho = np.outer(v, v.conj())
-rhoA = partial_trace(rho,d,d)
-rhoB = np.kron(rhoA,np.identity(d)/d)
-rhoB = partial_trace(rhoB,d,d)
-print(mycode.matrix_norm(rhoA - rhoB))
+ListofRatio = np.zeros((L1,L2))
 
+for n in range(SampleNum):
+    print(n)
 
+    coefficients = samples[n]
+    v = np.zeros(d*d)
+    for i in range(len(coefficients)):
+        v[i*(d+1)] = math.sqrt(coefficients[i])
+    rho = np.outer(v, v.conj())
 
+    for l in range(L2):
+        order = order_list[l]
+        for j in range(L1):
+            k = k_list[j]
+            ListofRatio[j][l] = ListofRatio[j][l] + moment_based_k_reduction_criterion(rho,k,d,order)
 
+ListofRatio = ListofRatio/SampleNum
+np.save('RMd8.npy',ListofRatio)
 
 
 
